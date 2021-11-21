@@ -17,9 +17,10 @@ public class Main {
         final MemberId myMemberId = memberRepository.nextId();
         applyMembership(memberService, myMemberId, "Xia", "Louis", "lxia1@myges.fr", "louis");
 
-        final MemberId None = memberRepository.nextId();
-        if(verifApplication(memberService, myMemberId)) {
+        final MemberId none = memberRepository.nextId();
 
+        if(verifApplication(memberService, myMemberId)) {
+            memberService.payment(myMemberId);
         } else {
             throw new IllegalStateException("You're not a Member !");
         }
@@ -30,21 +31,21 @@ public class Main {
         memberService.apply(member);
     }
 
+    private static boolean verifApplication(MemberService memberService, MemberId memberId) {
+        try {
+            memberService.getMember(memberId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     private static void changePassword(MemberService memberService, MemberId memberId, String newPassword) {
         memberService.changePassword(memberId, newPassword);
     }
 
     private static void changeEmail(MemberService memberService, MemberId memberId, String newEmail) {
         memberService.changeEmail(memberId, newEmail);
-    }
-
-    private static boolean verifApplication(MemberService memberService, MemberId memberId) {
-        try {
-            memberService.isMember(memberId);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     private static void printAllMembers(MemberService memberService) {

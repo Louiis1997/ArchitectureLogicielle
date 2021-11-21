@@ -3,6 +3,7 @@ package infrastructure;
 import domain.Member;
 import domain.MemberId;
 import domain.MemberRepository;
+import domain.NoSuchMemberException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class InMemoryMemberRepository implements MemberRepository{
     public Member byId(MemberId memberId) {
         final Member member = data.get(memberId);
         if (member == null) {
-            throw new RuntimeException("No member for " + memberId.getValue());
+            throw NoSuchMemberException.withId(memberId);
         }
         return member;
     }
