@@ -45,7 +45,7 @@ public class MemberService {
 
     public void changeCreditCard(MemberId memberId, String newCreditCard) {
         var member = this.memberRepository.byId(memberId);
-        member.changeCrefitCard(newCreditCard);
+        member.changeCreditCard(newCreditCard);
         this.memberRepository.save(member);
     }
 

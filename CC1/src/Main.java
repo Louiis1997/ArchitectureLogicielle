@@ -28,6 +28,11 @@ public class Main {
 
     private static void applyMembership(MemberService memberService, MemberId memberId, String lastname, String name, String email, String password) {
         Member member = Member.of(memberId, lastname, name, email, password);
+        final List<Member> members = memberService.all();
+        members.forEach(mem -> {
+            if(mem.getEmail().equals(email))
+                throw new RuntimeException("Your email is already used.");
+        });
         memberService.apply(member);
     }
 
@@ -49,8 +54,7 @@ public class Main {
     }
 
     private static void printAllMembers(MemberService memberService) {
-        System.out.println("List all members");
-
+        System.out.println("List of all members");
         final List<Member> members = memberService.all();
         members.forEach(System.out::println);
     }

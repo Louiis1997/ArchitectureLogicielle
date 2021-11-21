@@ -45,7 +45,7 @@ public final class Member {
         this.email = Objects.requireNonNull(newEmail);
     }
 
-    public void changeCrefitCard(String newCreditCard) {
+    public void changeCreditCard(String newCreditCard) {
         this.creditCard = Objects.requireNonNull(newCreditCard);
     }
 
