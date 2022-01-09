@@ -1,7 +1,7 @@
 package fr.esgi.cc2.use_cases.member.exposition;
 
 public class PaymentResponse {
-    public String lastPayment;
+    public final String lastPayment;
 
     public PaymentResponse(String lastPayment){
         this.lastPayment = lastPayment;

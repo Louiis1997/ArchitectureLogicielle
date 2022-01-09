@@ -24,7 +24,7 @@ public class MemberConfiguration {
     @Bean
     public EventDispatcher<Event> eventEventDispatcher() {
         final Map<Class<? extends Event>, List<EventListener<? extends Event>>> listenerMap = new HashMap<>();
-        //listenerMap.put(ModifyUserAddressEvent.class, List.of(new ModifyUserAddressEventListener()));
+        listenerMap.put(PaymentEvent.class, List.of(new PaymentEventListener()));
         listenerMap.put(CreateMemberEvent.class, List.of(new CreateMemberEventListener()));
         return new DefaultEventDispatcher(listenerMap);
     }
@@ -34,10 +34,10 @@ public class MemberConfiguration {
         return new CreateMemberCommandHandler(memberRepository(), eventEventDispatcher());
     }
 
-    /*@Bean
-    public ModifyUserAddressCommandHandler modifyUserAddressCommandHandler() {
-        return new ModifyUserAddressCommandHandler(userRepository(), eventEventDispatcher());
-    }*/
+    @Bean
+    public PaymentCommandHandler modifyUserAddressCommandHandler() {
+        return new PaymentCommandHandler(memberRepository(), eventEventDispatcher());
+    }
 
     @Bean
     public CommandBus commandBus() {

@@ -1,7 +1,7 @@
 package fr.esgi.cc2.use_cases.member.exposition;
 
 public class EmailResponse {
-    public String email;
+    public final String email;
 
     public EmailResponse(String email){
         if(!email.matches(".+@.+\\.[a-z]+"))
