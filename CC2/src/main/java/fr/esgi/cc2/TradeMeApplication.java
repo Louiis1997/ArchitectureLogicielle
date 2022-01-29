@@ -12,14 +12,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Timer;
 
 @SpringBootApplication
 public class TradeMeApplication {
     public static void main(String[] args) {
         final ConfigurableApplicationContext applicationContext = SpringApplication.run(TradeMeApplication.class, args);
 
+        Timer timer;
         //--1. Apply for Membership
         CreateMemberCommandHandler memberCommandHandler = applicationContext.getBean(CreateMemberCommandHandler.class);
         CreateMember createMember = new CreateMember("Xia", "Sandrine", new Email("sandrine@gmail.com"), "sandrine");

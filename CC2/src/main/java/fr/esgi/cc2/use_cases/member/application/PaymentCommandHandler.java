@@ -7,6 +7,8 @@ import fr.esgi.cc2.use_cases.member.domain.MemberId;
 import fr.esgi.cc2.use_cases.member.domain.MemberRepository;
 
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PaymentCommandHandler implements CommandHandler<Payment, Void>{
     MemberRepository memberRepository;
@@ -26,7 +28,7 @@ public class PaymentCommandHandler implements CommandHandler<Payment, Void>{
             System.out.print("Please provide your credit card number : ");
             member.changeCreditCard(scanner.next());
         }
-        System.out.println("You are sure you wanna buy the subscription ? Yes/No");
+        System.out.println("You are sure you wanna buy/renew the subscription ? Yes/No");
         if (!scanner.next().equals("Yes"))
             System.exit(1);
         System.out.print("Congrats for your subscription!\n");
