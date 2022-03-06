@@ -4,6 +4,9 @@ import fr.esgi.projet.kernel.NoSuchEntityException;
 import fr.esgi.projet.use_cases.addMember.application.*;
 import fr.esgi.projet.use_cases.addMember.domain.*;
 import fr.esgi.projet.use_cases.addMember.exposition.PaymentResponse;
+import fr.esgi.projet.use_cases.closeProject.application.CloseProject;
+import fr.esgi.projet.use_cases.closeProject.application.CloseProjectCommandHandler;
+import fr.esgi.projet.use_cases.closeProject.application.RetrieveProject;
 import fr.esgi.projet.use_cases.createProject.application.*;
 import fr.esgi.projet.use_cases.createProject.domain.ProjectId;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +24,7 @@ public class TradeMeApplication {
         final ConfigurableApplicationContext applicationContext = SpringApplication.run(TradeMeApplication.class, args);
         CreateMemberCommandHandler memberCommandHandler = applicationContext.getBean(CreateMemberCommandHandler.class);
         CreateProjectCommandHandler projectCommandHandler = applicationContext.getBean(CreateProjectCommandHandler.class);
-
+        CloseProjectCommandHandler closeProjectCommandHandler = applicationContext.getBean(CloseProjectCommandHandler.class);
         //--1. Apply for Membership
         CreateMember createMember = new CreateMember("Xia", "Sandrine", new Email("sandrine@gmail.com"), "sandrine");
         final MemberId memberId = memberCommandHandler.handle(createMember);
@@ -121,5 +124,26 @@ public class TradeMeApplication {
                 System.out.println(project);
             }
         }
+
+        //--1. Request Close Project
+        CloseProject closeProject = new CloseProject(projectId);
+
+        //--2. Verify Request
+        RetrieveProjects retrieveProjects2 = new RetrieveProjects();
+        RetrieveProjectsHandler retrieveProjectsHandler2 = applicationContext.getBean(RetrieveProjectsHandler.class);
+        final List<fr.esgi.projet.use_cases.createProject.domain.Project> projects2 = retrieveProjectsHandler.handle(retrieveProjects);
+        boolean verifyRequest2 = true;
+        for(fr.esgi.projet.use_cases.createProject.domain.Project project : projects) {
+            if(project.getId() == projectId) {
+                verifyRequest2 = false;
+                break;
+            }
+        }
+        if(!verifyRequest2) throw NoSuchEntityException.withId(projectId);
+
+        //--3. Release all tradesmen and close project
+        closeProjectCommandHandler.handle(closeProject);
+
+
     }
 }
